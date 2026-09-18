@@ -1,0 +1,64 @@
+name : Application Validation
+on:
+    push:
+    pull_request:
+        types: [ opened, reopened, synchronized ]
+        branches:
+        - main
+        - feature/workflow
+    workflow_dispatch:
+
+jobs:
+    echo:
+        runs-on: ubuntu-latest
+        steps:
+            - run: echo "Workflow triggered by: ${{ github.event_name }}"
+            name: Using Actions
+
+on: push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: react-app
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: '24.x'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Run Unit Tests
+        run: npm run test
+        name : Application Validation
+on:
+    push:
+    pull_request:
+        types: [ opened, reopened, synchronized ]
+        branches:
+        - main
+    workflow_dispatch:
+
+jobs:
+    echo:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Display the trigger
+              run: echo "Workflow triggered by: ${{ github.event_name }}"
+            
+            - name: Display repository
+              run: ls -la
+
+            - name: Install Dependencies
+              run: npm ci
+
+            - name: Run Application Tests
+              run: npm test
